@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+    <meta name="author" content="Alessandro Viscomi">
+    <meta name="description" content="Detect a possible typosquatted domain">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>TypoAlert | Tool against typosquatting</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <script src="/static/js/settings.js"></script>    
+</head>
+<body>
+    <div class="logo">
+        <img src="{{url_for('static', filename='img/logo.png')}}">
+        <!-- <h2 class="subtitle">Tool against typosquatting</h2> -->
+    </div>
+
+	<nav>
+        <ul>
+            <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+
+            <li><a href="/settings"><i class="fa fa-cog"></i> Settings</a></li>
+
+            <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
+            
+            <li><a href="mailto:a.viscomi00@gmail.com"><i class="fa fa-envelope"></i> Contact us</a></li>
+            
+            <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+        </ul>
+    </nav>
+    
+    <div class="profile-container">
+        <div class="email-container">
+            <label for="email">Email:</label>
+            <p>{{ current_user.email }}</p>
+        </div>
+        <div class="api-key-container">
+            <label for="api-key">Api key:</label>
+            <div class="api-key">
+                <input type="text" id="api-key" value="{{ current_user.api_key }}" readonly>
+                <button id="copyBtn" onclick="copyApiKey()"><i class="fa fa-copy" style="margin: auto;"></i></button>
+            </div>
+        </div>
+        <div class="btnContainer">
+            <button id="resetPassBtn">Reset password</button>
+            <button id="deleteProfileBtn">Delete profile</button>
+        </div>
+    </div>
+</body>
+</html>

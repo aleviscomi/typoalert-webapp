@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+    <meta name="author" content="Alessandro Viscomi">
+    <meta name="description" content="Detect a possible typosquatted domain">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>TypoAlert | Tool against typosquatting</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/scan.js"></script>    
+</head>
+<body>
+    <div class="logo">
+        <img src="{{url_for('static', filename='img/logo.png')}}">
+        <!-- <h2 class="subtitle">Tool against typosquatting</h2> -->
+    </div>
+
+	<nav>
+        <ul>
+            <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+            {% if not current_user.is_authenticated %}
+            
+            <li><a href="/login"><i class="fa fa-sign-in"></i> Login</a></li>
+            
+            <li><a href="/register"><i class="fa fa-user-plus"></i> Create account</a></li>
+            
+            {% else %}
+            <li><a href="/settings"><i class="fa fa-cog"></i> Settings</a></li>
+
+            <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
+            
+            <li><a href="mailto:a.viscomi00@gmail.com"><i class="fa fa-envelope"></i> Contact us</a></li>
+            
+            <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+	{% if current_user.is_authenticated %}
+
+    <div id="error-banner" class="error-banner"></div>
+    
+    <div class="search-container">
+        <form class="transparent-form" onsubmit="scan()" action="javascript:void(0);">
+            <div class="searcher">
+                <div class="tooltip">
+                    <i class="fa fa-info-circle"></i>
+                    <span class="tooltiptext">Please enter only the domain name (including subdomains) without 'www' or 'http/s'. (e.g. google.com)</span>
+                </div>
+
+                <input type="text" name="domain" id="domain" class="domain-input" placeholder="Enter a domain name" required>
+                <input type="hidden" name="api_key" id="api_key" value="{{ current_user.api_key }}">
+                <button type="submit" class="scan-button">Scan</button>
+            </div>
+        </form>  
+    </div>
+
+    <div id="loader">
+        <div id="loader-container">
+            <div id="loader-bar"></div>
+        </div>
+    </div>
+
+    <div id="scan-result">
+        <!-- Here scan results  -->
+    </div>   
+	
+	{% else %}
+    <div class="not-logged-info">
+        <h1>You are not logged in.<br>Please sign in or create account!</h1>
+    </div>
+	{% endif %}
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+    <meta name="author" content="Alessandro Viscomi">
+    <meta name="description" content="Detect a possible typosquatted domain">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>TypoAlert | Tool against typosquatting</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/settings.css">
+    <script src="/static/js/settings.js"></script>    
+</head>
+<body>
+    <div class="logo">
+        <img src="{{url_for('static', filename='img/logo.png')}}">
+        <!-- <h2 class="subtitle">Tool against typosquatting</h2> -->
+    </div>
+
+	<nav>
+        <ul>
+            <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+
+            <li><a href="/settings"><i class="fa fa-cog"></i> Settings</a></li>
+
+            <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
+            
+            <li><a href="mailto:a.viscomi00@gmail.com"><i class="fa fa-envelope"></i> Contact us</a></li>
+            
+            <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+        </ul>
+    </nav>
+
+    
+    <div class="verified-domains-container">
+        <div id="error-banner" class="error-banner"></div>
+
+        <div class="search-container">
+            <form class="transparent-form" onsubmit="addNewUserDomain()" action="javascript:void(0);">
+                <div class="searcher">
+                    <div class="tooltip">
+                        <i class="fa fa-info-circle"></i>
+                        <span class="tooltiptext">Please enter only the domain name (including subdomains) without 'www' or 'http/s'. (e.g. google.com)</span>
+                    </div>
+                    
+                    <input type="text" name="new_domain" id="new_domain" class="domain-input" placeholder="Add a new domain name" required>
+                    <button type="submit" id="add-domain-button" class="add-domain-button" >Add</button>
+                </div>
+            </form>     
+        </div>
+
+        <div style="text-align: center; margin-top: 50px;" id="user-domains-list">
+            <h2>List of your verified domains</h2>
+            {% if current_user.domains %}
+            <ul class="user-verified-domains">
+                {% for domain in current_user.domains %}
+                <li class="user-verified-domain">
+                    <p>{{ domain.domain_name }}</p>
+                    <button onclick="removeUserDomain('{{ domain.domain_name }}')">Remove</button>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p id="no-domains">You don't have any domains associated with your account yet!</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
